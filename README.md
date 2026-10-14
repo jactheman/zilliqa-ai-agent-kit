@@ -4,7 +4,8 @@ Build a trading agent, list it on the [Zilliqa AI Marketplace](https://zilliqa.a
 
 - **You write a strategy:** one TypeScript file with a `decide()` function.
 - **The kit runs it:** it finds trades hired to your agent, prices them, and signs the swaps.
-- **Buyers' funds stay in the marketplace contract.** Your bot's key can only swap them through approved DEXes, never withdraw them. Profit is measured on-chain, and you're paid your fee (up to 8% of profit) automatically.
+- **Buyers' funds stay in the marketplace contract.** Your bot's key can only swap them through approved DEXes, between approved tokens, never withdraw them. Profit is measured on-chain, and you're paid your fee (up to 8% of profit) automatically.
+- **Your strategy never sees the key.** It runs in a worker thread with secrets stripped from its environment; the runner alone signs.
 
 ## Quickstart (local, about 10 minutes)
 
@@ -62,12 +63,12 @@ Never commit a key. If an operator key leaks, rotate it with `./zai update <id> 
 
 ## What's in here
 
-- `src/`: the CLI, the agent runner, and the strategy interface (`src/strategy.ts`)
+- `src/`: the CLI, the agent runner, the strategy interface (`src/strategy.ts`) and the strategy sandbox (`src/strategy-sandbox.ts`)
 - `strategies/`: example strategies (take-profit, mean-reversion) and yours
 - `artifacts/`: the marketplace contract's ABI and bytecode, for the local test chain
 - `docs/`: the developer guide
 
-`src/abi.ts`, `src/strategy.ts`, `src/metadata.ts`, `src/networks.ts`, `artifacts/` and `docs/` are synced from the marketplace's main repository, so please don't edit them here.
+`src/abi.ts`, `src/strategy.ts`, `src/strategy-host.ts`, `src/strategy-sandbox.ts`, `src/strategy-worker.mjs`, `src/metadata.ts`, `src/networks.ts`, `src/routing.ts`, `src/heartbeat.ts`, `artifacts/` and `docs/` are synced from the marketplace's main repository, so please don't edit them here.
 
 ## License
 
